@@ -15,13 +15,13 @@ const Nav = styled.div`
   top: 0;
   z-index: 10;
   color: white;
-  `;
-  
-  const NavContainer = styled.div`
+`;
+
+const NavContainer = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.text_secondary + 20};
   background-color: ${({ theme }) => theme.bg};
   width: 100%;
-  height:100%;
+  height: 100%;
   max-width: 1400px;
   padding: 0 24px;
   display: flex;
@@ -54,10 +54,16 @@ const Logo = styled.img`
 const Mobileicon = styled.div`
   color: ${({ theme }) => theme.text_primary};
   display: none;
+  cursor: pointer;
   @media screen and (max-width: 930px) {
     display: flex;
     align-items: center;
   }
+`;
+
+const FlexDiv = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const NavItems = styled.ul`
@@ -98,6 +104,10 @@ const UserContainer = styled.div`
   gap: 16px;
   align-items: center;
   padding: 0 6px;
+  padding-left: 40px;
+  @media screen and (max-width: 930px) {
+    padding-left: 6px;
+  }
   color: ${({ theme }) => theme.primary};
 `;
 
@@ -114,7 +124,7 @@ const TextButton = styled.div`
 `;
 
 const MobileMenu = styled.ul`
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: start;
   gap: 16px;
@@ -134,6 +144,9 @@ const MobileMenu = styled.ul`
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   opacity: ${({ isOpen }) => (isOpen ? "100%" : "0")};
   z-index: ${({ isOpen }) => (isOpen ? "1000" : "-1000")};
+  @media screen and (max-width: 930px) {
+    display: flex;
+  }
 `;
 
 const Navbar = () => {
@@ -141,33 +154,57 @@ const Navbar = () => {
   return (
     <Nav>
       <NavContainer>
-        <Mobileicon onClick={() => setIsOpen(!isOpen)}>
-          <MenuRounded sx={{ color: "inherit" }} />
-        </Mobileicon>
-        <NavLogo to="/">
-          <Logo src={LogoImg} />
-          <span>Fitness-Tracker</span>
-        </NavLogo>
+        <FlexDiv>
+          <Mobileicon onClick={() => setIsOpen(!isOpen)}>
+            <MenuRounded sx={{ color: "inherit" }} />
+          </Mobileicon>
+          <NavLogo to="/">
+            <Logo src={LogoImg} />
+            <span>Fitness-Tracker</span>
+          </NavLogo>
+        </FlexDiv>
 
-        <NavItems>
-          <Navlink to="/">Dashboard</Navlink>
-          <Navlink to="/workouts">Workouts</Navlink>
-          <Navlink to="/tutorials">Tutorials</Navlink>
-          <Navlink to="/blogs">Blogs</Navlink>
-          <Navlink to="/contact">Contact</Navlink>
-        </NavItems>
+        <FlexDiv>
+          <NavItems>
+            <li>
+              <Navlink to="/">Dashboard</Navlink>
+            </li>
+            <li>
+              <Navlink to="/workouts">Workouts</Navlink>
+            </li>
+            <li>
+              <Navlink to="/tutorials">Tutorials</Navlink>
+            </li>
+            <li>
+              <Navlink to="/blogs">Blogs</Navlink>
+            </li>
+            <li>
+              <Navlink to="/contact">Contact</Navlink>
+            </li>
+          </NavItems>
 
-        <UserContainer>
-          <Avatar></Avatar>
-          <TextButton>Logout</TextButton>
-        </UserContainer>
+          <UserContainer>
+            <Avatar></Avatar>
+            <TextButton>Logout</TextButton>
+          </UserContainer>
+        </FlexDiv>
       </NavContainer>
       <MobileMenu isOpen={isOpen}>
-        <Navlink to="/">Dashboard</Navlink>
-        <Navlink to="/workouts">Workouts</Navlink>
-        <Navlink to="/tutorials">Tutorials</Navlink>
-        <Navlink to="/blogs">Blogs</Navlink>
-        <Navlink to="/contact">Contact</Navlink>
+        <li>
+          <Navlink to="/">Dashboard</Navlink>
+        </li>
+        <li>
+          <Navlink to="/workouts">Workouts</Navlink>
+        </li>
+        <li>
+          <Navlink to="/tutorials">Tutorials</Navlink>
+        </li>
+        <li>
+          <Navlink to="/blogs">Blogs</Navlink>
+        </li>
+        <li>
+          <Navlink to="/contact">Contact</Navlink>
+        </li>
       </MobileMenu>
     </Nav>
   );
