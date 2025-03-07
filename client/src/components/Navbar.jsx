@@ -49,6 +49,7 @@ const Logo = styled.img`
   height: 42px;
   aspect-ratio: 1 / 1;
   object-fit: cover;
+  transform: scale(1.5);
 `;
 
 const Mobileicon = styled.div`
