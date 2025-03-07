@@ -25,18 +25,29 @@ const Title = styled.div`
   }
 `;
 
+const TheamWraper = styled.div`
+  & text {
+    fill: ${({ theme }) => theme.text_primary} !important;
+  }
+  & line {
+    stroke: ${({ theme }) => theme.text_primary} !important;
+  }
+`;
+
 function WeeklyStatCard({ data }) {
   return (
     <Card>
       <Title>Weekly Calories Burned</Title>
       {data?.totalWeeksCaloriesBurnt && (
-        <BarChart
-          xAxis={[
-            { scaleType: "band", data: data?.totalWeeksCaloriesBurnt?.weeks },
-          ]}
-          series={[{ data: data?.totalWeeksCaloriesBurnt?.caloriesBurned }]}
-          height={300}
-        />
+        <TheamWraper>
+          <BarChart
+            xAxis={[
+              { scaleType: "band", data: data?.totalWeeksCaloriesBurnt?.weeks },
+            ]}
+            series={[{ data: data?.totalWeeksCaloriesBurnt?.caloriesBurned }]}
+            height={300}
+          />
+        </TheamWraper>
       )}
     </Card>
   );

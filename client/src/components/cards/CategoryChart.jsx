@@ -25,23 +25,34 @@ const Title = styled.div`
   }
 `;
 
+const TheamWraper = styled.div`
+  & text {
+    fill: ${({ theme }) => theme.text_primary} !important;
+  }
+  & line {
+    stroke: ${({ theme }) => theme.text_primary} !important;
+  }
+`;
+
 function CategoryChart({ data }) {
   return (
     <Card>
       <Title>Weekly Calories Burned</Title>
       {data?.pieChartData && (
-        <PieChart
-          series={[
-            {
-              data: data?.pieChartData,
-              innerRadius: 80,
-              outerRadius: 120,
-              paddingAngle: 5,
-              cornerRadius: 5,
-            },
-          ]}
-          height={300}
-        />
+        <TheamWraper>
+          <PieChart
+            series={[
+              {
+                data: data?.pieChartData,
+                innerRadius: 80,
+                outerRadius: 120,
+                paddingAngle: 5,
+                cornerRadius: 5,
+              },
+            ]}
+            height={300}
+          />
+        </TheamWraper>
       )}
     </Card>
   );

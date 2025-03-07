@@ -26,3 +26,32 @@ export const lightTheme = {
   popup_text_secondary: "#b1b2b3",
   output_node: "#49516b",
 };
+
+export const darkTheme = {
+  bg: "#121212",
+  bgLight: "#1E1E1E",
+  primary: "#1E90FF",
+  secondary: "#3A5FCD",
+
+  disabled: "#626262",
+  menubar: "#0D0D0D",
+  navbar: "#161616",
+  arrow: "#8A8A8A",
+  menu_primary_text: "#E0E0E0",
+  menu_secondary_text: "#B0B0B0",
+  table_header: "#1F1F1F",
+  text_primary: "#E0E0E0",
+  text_secondary: "#B0B0B0",
+  card: "#1E1E1E",
+  black: "#000000",
+  white: "#FFFFFF",
+  shadow: "#00000080",
+  green: "#00C853",
+  yellow: "#FFD600",
+  red: "#D32F2F",
+  orange: "#FF9800",
+  popup: "#1F1F1F",
+  popup_text_primary: "#E0E0E0",
+  popup_text_secondary: "#B0B0B0",
+  output_node: "#303846",
+};

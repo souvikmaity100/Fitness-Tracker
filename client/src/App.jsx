@@ -1,5 +1,5 @@
 import styled, { ThemeProvider } from "styled-components";
-import { lightTheme } from "./utils/theams";
+import { darkTheme, lightTheme } from "./utils/theams";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useState } from "react";
 import Authentication from "./pages/Authentication";
@@ -16,20 +16,20 @@ const Container = styled.div`
   color: ${({ theme }) => theme.text_primary};
   overflow-x: hidden;
   overflow-y: hidden;
-  transition: all 02s ease;
+  transition: all 0.3s ease;
 `;
 
 function App() {
   const [user, setUser] = useState(true);
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={darkTheme}>
       <BrowserRouter>
         {user ? (
           <Container>
-            <Navbar/>
+            <Navbar />
             <Routes>
-              <Route path="/" exact element={<Dashboard/>}/>
-              <Route path="/workouts" exact element={<Workouts/>}/>
+              <Route path="/" exact element={<Dashboard />} />
+              <Route path="/workouts" exact element={<Workouts />} />
             </Routes>
           </Container>
         ) : (

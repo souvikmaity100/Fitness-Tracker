@@ -42,10 +42,14 @@ const Right = styled.div`
 `;
 
 const Shade = styled.span`
-  background-color: #ffffff91;
+  background-color:${({ theme }) => theme.bgLight};
+  min-width: 560px;
   padding: 40px;
   border-radius: 15px;
   backdrop-filter: blur(5px);
+  @media (max-width: 600px) {
+    min-width: auto;
+  }
 `;
 
 const Text = styled.div`
