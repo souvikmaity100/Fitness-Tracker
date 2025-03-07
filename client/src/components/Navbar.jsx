@@ -52,6 +52,11 @@ const Logo = styled.img`
   transform: scale(1.5);
 `;
 
+const BrandName = styled.span`
+  color: ${({ theme }) => theme.text_primary};
+  font-size: 1.5rem;
+`;
+
 const Mobileicon = styled.div`
   color: ${({ theme }) => theme.text_primary};
   display: none;
@@ -161,7 +166,7 @@ const Navbar = () => {
           </Mobileicon>
           <NavLogo to="/">
             <Logo src={LogoImg} />
-            <span>Fitness-Tracker</span>
+            <BrandName>Fitness-Tracker</BrandName>
           </NavLogo>
         </FlexDiv>
 
