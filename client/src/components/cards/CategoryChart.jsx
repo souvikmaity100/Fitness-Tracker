@@ -16,7 +16,8 @@ const Card = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h3`
+  margin: 0;
   font-weight: 600;
   font-size: 16px;
   color: ${({ theme }) => theme.primary};

@@ -51,8 +51,9 @@ const Left = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h3`
   font-weight: 600;
+  margin: 0;
   font-size: 16px;
   color: ${({ theme }) => theme.primary};
   @media (max-width: 600px) {
@@ -85,7 +86,8 @@ const Section = styled.div`
   }
 `;
 
-const SecTitle = styled.div`
+const SecTitle = styled.h2`
+  margin: 0;
   font-size: 22px;
   color: ${({ theme }) => theme.text_primary};
   font-weight: 500;

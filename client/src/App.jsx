@@ -21,12 +21,13 @@ const Container = styled.div`
 
 function App() {
   const [user, setUser] = useState(true);
+  const [isDarkTheam, setIsDarkTheam] = useState(false);
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={isDarkTheam ? darkTheme : lightTheme}>
       <BrowserRouter>
         {user ? (
           <Container>
-            <Navbar />
+            <Navbar setIsDarkTheam={setIsDarkTheam} isDarkTheam={isDarkTheam} />
             <Routes>
               <Route path="/" exact element={<Dashboard />} />
               <Route path="/workouts" exact element={<Workouts />} />

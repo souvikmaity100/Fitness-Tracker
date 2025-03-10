@@ -17,7 +17,8 @@ const Card = styled.div`
     padding: 16px;
   }
 `;
-const Title = styled.div`
+const Title = styled.h3`
+  margin: 0;
   font-weight: 600;
   font-size: 16px;
   color: ${({ theme }) => theme.primary};
@@ -31,7 +32,7 @@ function AddWorkout({ workout, setWorkout }) {
     <Card>
       <Title>Add New Workout</Title>
       <TextInput
-        label="Workout"
+        name="workoutDesc"
         textArea
         rows={10}
         placeholder={`Enter in this format:

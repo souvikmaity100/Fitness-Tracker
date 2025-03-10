@@ -27,7 +27,8 @@ const Wrapper = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h2`
+  margin: 0;
   padding: 0px 16px;
   font-size: 22px;
   color: ${({ theme }) => theme.text_primary};
@@ -59,7 +60,6 @@ const Section = styled.div`
 const CardWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 20px;
   margin-bottom: 100px;
   @media (max-width: 600px) {
@@ -115,13 +115,13 @@ function Dashboard() {
         <FlexWrap>
           <WeeklyStatCard data={data} />
           <CategoryChart data={data} />
-          <AddWorkout workout={workout} setWorkout={setWorkout}/>
+          <AddWorkout workout={workout} setWorkout={setWorkout} />
         </FlexWrap>
 
         <Section>
           <Title>Todays Workouts</Title>
           <CardWrapper>
-              <WorkoutCard />
+            <WorkoutCard />
           </CardWrapper>
         </Section>
       </Wrapper>

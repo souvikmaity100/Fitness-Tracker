@@ -4,6 +4,7 @@ import { Link as LinkR, NavLink } from "react-router-dom";
 import { MenuRounded } from "@mui/icons-material";
 import { Avatar } from "@mui/material";
 import { useState } from "react";
+import TheamButton from "./TheamButton";
 
 const Nav = styled.div`
   height: 80px;
@@ -15,6 +16,9 @@ const Nav = styled.div`
   top: 0;
   z-index: 10;
   color: white;
+  @media screen and (max-width: 1200px) {
+    height: 70px;
+  }
 `;
 
 const NavContainer = styled.div`
@@ -23,9 +27,9 @@ const NavContainer = styled.div`
   width: 100%;
   height: 100%;
   max-width: 1400px;
-  padding: 0 24px;
+  padding: 0 1.5rem;
   display: flex;
-  gap: 14px;
+  gap: .9rem;
   align-items: center;
   justify-content: space-between;
   font-size: 1rem;
@@ -37,16 +41,16 @@ const NavLogo = styled(LinkR)`
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
   padding: 0 6px;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 1.2rem;
   text-decoration: none;
   color: ${({ theme }) => theme.black};
 `;
 
 const Logo = styled.img`
-  height: 42px;
+  height: 2.6rem;
   aspect-ratio: 1 / 1;
   object-fit: cover;
   transform: scale(1.5);
@@ -55,6 +59,9 @@ const Logo = styled.img`
 const BrandName = styled.span`
   color: ${({ theme }) => theme.text_primary};
   font-size: 1.5rem;
+  @media screen and (max-width: 930px) {
+    font-size: 1rem;
+  }
 `;
 
 const Mobileicon = styled.div`
@@ -77,8 +84,8 @@ const NavItems = styled.ul`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 32px;
-  padding: 0 6px;
+  gap: 1.5rem;
+  padding: 0 .6rem;
   list-style: none;
 
   @media screen and (max-width: 930px) {
@@ -107,10 +114,10 @@ const UserContainer = styled.div`
   height: 100%;
   display: flex;
   justify-content: flex-end;
-  gap: 16px;
+  gap: 1rem;
   align-items: center;
-  padding: 0 6px;
-  padding-left: 40px;
+  padding: 0 .6rem;
+  padding-left: 1.5rem;
   @media screen and (max-width: 930px) {
     padding-left: 6px;
   }
@@ -121,7 +128,7 @@ const TextButton = styled.div`
   text-align: end;
   color: ${({ theme }) => theme.secondary};
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1rem;
   transition: all 0.3s ease;
   font-weight: 600;
   &:hover {
@@ -133,7 +140,7 @@ const MobileMenu = styled.ul`
   display: none;
   flex-direction: column;
   align-items: start;
-  gap: 16px;
+  gap: 1rem;
   margin: 0px;
   padding: 0 6px;
   list-style: none;
@@ -155,7 +162,7 @@ const MobileMenu = styled.ul`
   }
 `;
 
-const Navbar = () => {
+const Navbar = ({ setIsDarkTheam, isDarkTheam }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Nav>
@@ -166,7 +173,7 @@ const Navbar = () => {
           </Mobileicon>
           <NavLogo to="/">
             <Logo src={LogoImg} />
-            <BrandName>Fitness-Tracker</BrandName>
+            <BrandName>F-Tracker</BrandName>
           </NavLogo>
         </FlexDiv>
 
@@ -193,6 +200,8 @@ const Navbar = () => {
             <Avatar></Avatar>
             <TextButton>Logout</TextButton>
           </UserContainer>
+
+          <TheamButton setIsDarkTheam={setIsDarkTheam} isDarkTheam={isDarkTheam}/>
         </FlexDiv>
       </NavContainer>
       <MobileMenu isOpen={isOpen}>
