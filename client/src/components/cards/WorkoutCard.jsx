@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Card = styled.div`
   flex: 1 1 300px;
   min-width: 250px;
-  max-width: 400px;
+  max-width: 630px;
   padding: 16px 18px;
   border: 1px solid ${({ theme }) => theme.text_primary + 20};
   border-radius: 14px;
