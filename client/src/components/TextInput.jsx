@@ -79,6 +79,7 @@ const Input = styled.input`
   font-size: 14px;
   outline: none;
   border: none;
+  resize:none;
   background-color: transparent;
   color: ${({ theme }) => theme.text_primary};
   &:focus {

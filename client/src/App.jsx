@@ -22,7 +22,7 @@ const Container = styled.div`
 function App() {
   const [user, setUser] = useState(true);
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={lightTheme}>
       <BrowserRouter>
         {user ? (
           <Container>
