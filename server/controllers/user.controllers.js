@@ -3,6 +3,10 @@ import { createError } from "../error.js";
 import { User } from "../models/user.model.js";
 import { createToken } from "../services/authentication.services.js";
 import { Workout } from "../models/workout.model.js";
+import {
+  calculateCaloriesBurnt,
+  parseWorkoutLine,
+} from "../utils/workout.utils.js";
 
 const registerUser = async (req, res, next) => {
   try {
@@ -64,7 +68,7 @@ const getUserDashboard = async (req, res, next) => {
   try {
     const userId = req.user?.id;
     const user = await User.findById(userId);
-    
+
     if (!user) {
       return next(createError(404, "User not found"));
     }
@@ -182,4 +186,110 @@ const getUserDashboard = async (req, res, next) => {
   }
 };
 
-export { registerUser, loginUser, getUserDashboard };
+const getWorkoutsByDate = async (req, res, next) => {
+  try {
+    const userId = req.user?.id;
+    const user = await User.findById(userId);
+    let date = req.query.date ? new Date(req.query.date) : new Date();
+    if (!user) {
+      return next(createError(404, "User not found"));
+    }
+    const startOfDay = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
+    const endOfDay = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate() + 1
+    );
+
+    const todaysWorkouts = await Workout.find({
+      user: userId,
+      date: { $gte: startOfDay, $lt: endOfDay },
+    });
+    const totalCaloriesBurnt = todaysWorkouts.reduce(
+      (total, workout) => total + workout.caloriesBurned,
+      0
+    );
+
+    return res.status(200).json({ todaysWorkouts, totalCaloriesBurnt });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const addNewWorkout = async (req, res, next) => {
+  try {
+    const userId = req.user?.id;
+    const { workoutString } = req.body;
+    if (!workoutString) {
+      return next(createError(400, "Workout string is missing"));
+    }
+    // Split workoutString into lines
+    const eachworkout = workoutString.split(";").map((line) => line.trim());
+    // Check if any workouts start with "#" to indicate categories
+    const categories = eachworkout.filter((line) => line.startsWith("#"));
+    if (categories.length === 0) {
+      return next(createError(400, "No categories found in workout string"));
+    }
+
+    const parsedWorkouts = [];
+    let currentCategory = "";
+    let count = 0;
+
+    // Loop through each line to parse workout details
+    await eachworkout.forEach((line) => {
+      count++;
+      if (line.startsWith("#")) {
+        const parts = line?.split("\n").map((part) => part.trim());
+        if (parts.length < 5) {
+          throw createError(
+            400,
+            `Workout string is missing for ${count}th workout`
+          );
+        }
+
+        // Update current category
+        currentCategory = parts[0].substring(1).trim();
+        // Extract workout details
+        const workoutDetails = parseWorkoutLine(parts);
+
+        if (workoutDetails) {
+          // Add category to workout details
+          workoutDetails.category = currentCategory;
+          parsedWorkouts.push(workoutDetails);
+        } else {
+          throw createError(400, "Please enter in proper format ");
+        }
+      } else {
+        throw createError(
+          400,
+          `Workout string is missing for ${count}th workout`
+        );
+      }
+    });
+
+    // Calculate calories burnt for each workout
+    parsedWorkouts.forEach(async (workout) => {
+      workout.caloriesBurned = parseFloat(calculateCaloriesBurnt(workout));
+      await Workout.create({ ...workout, user: userId });
+    });
+
+    return res.status(201).json({
+      message: "Workouts added successfully",
+      workouts: parsedWorkouts,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export {
+  registerUser,
+  loginUser,
+  getUserDashboard,
+  getWorkoutsByDate,
+  addNewWorkout,
+};
