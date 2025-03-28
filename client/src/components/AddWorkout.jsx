@@ -27,7 +27,7 @@ const Title = styled.h3`
   }
 `;
 
-function AddWorkout({ workout, setWorkout }) {
+function AddWorkout({ workout, setWorkout, addNewWorkout, buttonLoading }) {
   return (
     <Card>
       <Title>Add New Workout</Title>
@@ -46,7 +46,13 @@ function AddWorkout({ workout, setWorkout }) {
         value={workout}
         handelChange={(e) => setWorkout(e.target.value)}
       />
-      <Button text="Add Workout" small />
+      <Button
+        text="Add Workout"
+        small
+        onClick={() => addNewWorkout()}
+        isLoading={buttonLoading}
+        isDisabled={buttonLoading}
+      />
     </Card>
   );
 }

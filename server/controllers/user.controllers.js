@@ -87,7 +87,7 @@ const getUserDashboard = async (req, res, next) => {
 
     //calculte total calories burnt
     const totalCaloriesBurnt = await Workout.aggregate([
-      { $match: { user: userId, date: { $gte: startToday, $lt: endToday } } },
+      { $match: { user: user._id, date: { $gte: startToday, $lt: endToday } } },
       {
         $group: {
           _id: null,
@@ -110,7 +110,7 @@ const getUserDashboard = async (req, res, next) => {
 
     // Fetch category of workouts
     const categoryCalories = await Workout.aggregate([
-      { $match: { user: userId, date: { $gte: startToday, $lt: endToday } } },
+      { $match: { user: user._id, date: { $gte: startToday, $lt: endToday } } },
       {
         $group: {
           _id: "$category",
@@ -148,7 +148,7 @@ const getUserDashboard = async (req, res, next) => {
       const weekData = await Workout.aggregate([
         {
           $match: {
-            user: userId,
+            user: user._id,
             date: { $gte: startOfDay, $lt: endOfDay },
           },
         },

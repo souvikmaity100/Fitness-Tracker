@@ -55,20 +55,22 @@ const Details = styled.div`
   gap: 6px;
 `;
 
-function WorkoutCard() {
+function WorkoutCard({ workout }) {
   return (
     <Card>
-      <Category>#Back</Category>
-      <Name>Back Squat</Name>
-      <Sets>Count: 10 sets X 10 reps</Sets>
+      <Category>#{workout?.category}</Category>
+      <Name>{workout?.workoutName}</Name>
+      <Sets>
+        Count: {workout?.sets} sets X {workout?.reps} reps
+      </Sets>
       <Flex>
         <Details>
           <FitnessCenterRounded sx={{ fontSize: "20px" }} />
-          50 kg
+          {workout?.weight} kg
         </Details>
         <Details>
           <TimelapseRounded sx={{ fontSize: "20px" }} />
-          25 min
+          {workout?.duration} min
         </Details>
       </Flex>
     </Card>

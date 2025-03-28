@@ -13,7 +13,7 @@ const getDashboardDetails = async (token) =>
   });
 
 const getWorkouts = async (token, date) =>
-  await API.get(`/user/workout${date}`, {
+  await API.get(`/user/workout?date=${date}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 

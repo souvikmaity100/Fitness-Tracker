@@ -4,8 +4,9 @@ import CountsCard from "../components/cards/CountsCard";
 import WeeklyStatCard from "../components/cards/WeeklyStatCard";
 import CategoryChart from "../components/cards/CategoryChart";
 import AddWorkout from "../components/AddWorkout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import WorkoutCard from "../components/cards/WorkoutCard";
+import { addWorkout, getDashboardDetails, getWorkouts } from "../api";
 
 const Container = styled.div`
   flex: 1;
@@ -68,39 +69,63 @@ const CardWrapper = styled.div`
 `;
 
 function Dashboard() {
-  const data = {
-    totalCaloriesBurnt: 12560,
-    totalWorkouts: 7,
-    avgCaloriesBurntPerWorkout: 2100,
-    totalWeeksCaloriesBurnt: {
-      weeks: ["15th", "16th", "17th", "18th", "19th", "20th", "21th"],
-      caloriesBurned: [9500, 450, 85, 0, 48, 780, 0],
-    },
-    pieChartData: [
-      {
-        id: 0,
-        value: 6000,
-        label: "Legs",
-      },
-      {
-        id: 1,
-        value: 1750,
-        label: "Shoulder",
-      },
-      {
-        id: 2,
-        value: 1500,
-        label: "Back",
-      },
-      {
-        id: 3,
-        value: 2250,
-        label: "ABS",
-      },
-    ],
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState();
+  const [buttonLoading, setButtonLoading] = useState(false);
+  const [todaysWorkouts, setTodaysWorkouts] = useState([]);
+  const [workout, setWorkout] = useState(`#Legs
+-Back Squat
+-5 sets
+-15 reps
+-30 kg
+-10 min`);
+
+  const dashboardData = async () => {
+    setLoading(true);
+    const token = localStorage.getItem("f-tracker-app-token");
+    await getDashboardDetails(token)
+      .then((res) => {
+        setData(res.data);
+        console.log(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  const [workout, setWorkout] = useState("");
+  const getTodaysWorkout = async () => {
+    setLoading(true);
+    const token = localStorage.getItem("f-tracker-app-token");
+    await getWorkouts(token, "")
+      .then((res) => {
+        setTodaysWorkouts(res?.data?.todaysWorkouts);
+        console.log(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const addNewWorkout = async () => {
+    setButtonLoading(true);
+    const token = localStorage.getItem("f-tracker-app-token");
+    await addWorkout(token, { workoutString: workout })
+      .then((res) => {
+        dashboardData();
+        getTodaysWorkout();
+        setButtonLoading(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  useEffect(() => {
+    dashboardData();
+    getTodaysWorkout();
+  }, []);
 
   return (
     <Container>
@@ -115,13 +140,20 @@ function Dashboard() {
         <FlexWrap>
           <WeeklyStatCard data={data} />
           <CategoryChart data={data} />
-          <AddWorkout workout={workout} setWorkout={setWorkout} />
+          <AddWorkout
+            workout={workout}
+            setWorkout={setWorkout}
+            addNewWorkout={addNewWorkout}
+            buttonLoading={buttonLoading}
+          />
         </FlexWrap>
 
         <Section>
           <Title>Todays Workouts</Title>
           <CardWrapper>
-            <WorkoutCard />
+            {todaysWorkouts.map((workout, ind) => (
+              <WorkoutCard workout={workout} key={ind} />
+            ))}
           </CardWrapper>
         </Section>
       </Wrapper>
