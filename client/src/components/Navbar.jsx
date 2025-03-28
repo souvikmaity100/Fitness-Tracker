@@ -5,6 +5,8 @@ import { MenuRounded } from "@mui/icons-material";
 import { Avatar } from "@mui/material";
 import { useState } from "react";
 import TheamButton from "./TheamButton";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/reducers/userSlice";
 
 const Nav = styled.div`
   height: 80px;
@@ -162,7 +164,8 @@ const MobileMenu = styled.ul`
   }
 `;
 
-const Navbar = ({ setIsDarkTheam, isDarkTheam }) => {
+const Navbar = ({ setIsDarkTheam, isDarkTheam, currentUser }) => {
+  const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Nav>
@@ -197,8 +200,8 @@ const Navbar = ({ setIsDarkTheam, isDarkTheam }) => {
           </NavItems>
 
           <UserContainer>
-            <Avatar></Avatar>
-            <TextButton>Logout</TextButton>
+            <Avatar src={currentUser?.img}>{currentUser?.name[0].toUpperCase()}</Avatar>
+            <TextButton onClick={() => dispatch(logout())}>Logout</TextButton>
           </UserContainer>
 
           <TheamButton setIsDarkTheam={setIsDarkTheam} isDarkTheam={isDarkTheam}/>

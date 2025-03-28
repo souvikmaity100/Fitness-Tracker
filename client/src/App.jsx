@@ -6,6 +6,7 @@ import Authentication from "./pages/Authentication";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Workouts from "./pages/Workouts";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100%;
@@ -20,14 +21,18 @@ const Container = styled.div`
 `;
 
 function App() {
-  const [user, setUser] = useState(true);
+  const { currentUser } = useSelector((state) => state.user);
   const [isDarkTheam, setIsDarkTheam] = useState(false);
   return (
     <ThemeProvider theme={isDarkTheam ? darkTheme : lightTheme}>
       <BrowserRouter>
-        {user ? (
+        {currentUser ? (
           <Container>
-            <Navbar setIsDarkTheam={setIsDarkTheam} isDarkTheam={isDarkTheam} />
+            <Navbar
+              setIsDarkTheam={setIsDarkTheam}
+              isDarkTheam={isDarkTheam}
+              currentUser={currentUser}
+            />
             <Routes>
               <Route path="/" exact element={<Dashboard />} />
               <Route path="/workouts" exact element={<Workouts />} />
