@@ -69,7 +69,6 @@ const CardWrapper = styled.div`
 `;
 
 function Dashboard() {
-  const [loading, setLoading] = useState(false);
   const [data, setData] = useState();
   const [buttonLoading, setButtonLoading] = useState(false);
   const [todaysWorkouts, setTodaysWorkouts] = useState([]);
@@ -81,13 +80,10 @@ function Dashboard() {
 -10 min`);
 
   const dashboardData = async () => {
-    setLoading(true);
     const token = localStorage.getItem("f-tracker-app-token");
     await getDashboardDetails(token)
       .then((res) => {
         setData(res.data);
-        console.log(res.data);
-        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -95,13 +91,10 @@ function Dashboard() {
   };
 
   const getTodaysWorkout = async () => {
-    setLoading(true);
     const token = localStorage.getItem("f-tracker-app-token");
     await getWorkouts(token, "")
       .then((res) => {
         setTodaysWorkouts(res?.data?.todaysWorkouts);
-        console.log(res.data);
-        setLoading(false);
       })
       .catch((err) => {
         console.log(err);

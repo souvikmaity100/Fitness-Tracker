@@ -3,6 +3,9 @@ import WorkoutCard from "../components/cards/WorkoutCard";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers";
+import { useEffect, useState } from "react";
+import { getWorkouts } from "../api";
+import { CircularProgress } from "@mui/material";
 
 const Container = styled.div`
   flex: 1;
@@ -94,27 +97,47 @@ const SecTitle = styled.h2`
 `;
 
 function Workouts() {
+  const [todaysWorkouts, setTodaysWorkouts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [date, setDate] = useState("");
+
+  const getTodaysWorkout = async () => {
+    setLoading(true);
+    const token = localStorage.getItem("f-tracker-app-token");
+    await getWorkouts(token, date ? `?date=${date}` : "").then((res) => {
+      setTodaysWorkouts(res?.data?.todaysWorkouts);
+      console.log(res.data);
+      setLoading(false);
+    });
+  };
+
+  useEffect(() => {
+    getTodaysWorkout();
+  }, [date]);
+
   return (
     <Container>
       <Wrapper>
         <Left>
           <Title>Select Date</Title>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateCalendar />
+            <DateCalendar
+              onChange={(e) => setDate(`${e.$M + 1}/${e.$D}/${e.$y}`)}
+            />
           </LocalizationProvider>
         </Left>
         <Right>
           <Section>
             <SecTitle>Todays Workout</SecTitle>
-            <CardWrapper>
-              <WorkoutCard />
-              <WorkoutCard />
-              <WorkoutCard />
-              <WorkoutCard />
-              <WorkoutCard />
-              <WorkoutCard />
-              <WorkoutCard />
-            </CardWrapper>
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <CardWrapper>
+                {todaysWorkouts.map((workout, ind) => (
+                  <WorkoutCard workout={workout} key={ind}/>
+                ))}
+              </CardWrapper>
+            )}
           </Section>
         </Right>
       </Wrapper>
